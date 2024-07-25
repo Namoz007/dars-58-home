@@ -14,12 +14,6 @@ class CurrencyBloc extends Bloc<CurrencyEvent, CurrencyState> {
     on<ShowAllCurrency>(_getAllCurrency);
   }
 
-  // double _response(CalculateCurrencyForSum calculate,emit){
-  //   emit(LoadingCurrencys());
-  //   emit(CalculateCurrencyState());
-  //   return calculate.sum / calculate.rate;
-  // }
-
   void _getAllCurrency(ShowAllCurrency show,emit) async{
     emit(LoadingCurrencys());
     final currencys = await _currencyRepositories.getAllCurrency();

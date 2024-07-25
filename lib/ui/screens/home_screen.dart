@@ -3,6 +3,7 @@ import 'package:dars_58_home/blocs/currency/currency_event.dart';
 import 'package:dars_58_home/blocs/currency/currency_state.dart';
 import 'package:dars_58_home/services/currency_services.dart';
 import 'package:dars_58_home/ui/widgets/calculate_currency.dart';
+import 'package:dars_58_home/ui/widgets/search_currency.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -19,9 +20,25 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     _currencyServices.getAllCurrency();
     return Scaffold(
+      appBar: AppBar(
+        actions: [
+          BlocBuilder<CurrencyBloc,CurrencyState>(
+            builder: (context,state){
+              if(state is LoadedCurrencys){
+                return IconButton(onPressed: (){
+                  showSearch(
+                    context: context,
+                    delegate: MySearchDelegate(state.currencys),
+                  );
+                }, icon: Icon(Icons.search));
+              }
+              return Container();
+            },
+          ),
+        ],
+      ),
       body: BlocBuilder<CurrencyBloc,CurrencyState>(
         builder: (context,state){
-          print(state);
           if(state is InitialCurrencys){
             return Center(child: ElevatedButton(onPressed: (){
               context.read<CurrencyBloc>().add(ShowAllCurrency());
